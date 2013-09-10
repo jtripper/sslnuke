@@ -61,6 +61,8 @@ FTP data, anything using SSL. To attack users on a network, sslnuke can be used
 in conjunction with an ARP poisoning tool, such as the one found at [Blackhat Library](http://www.blackhatlibrary.net/Python#Scapy)
 or it can be deployed on a gateway.
 
+A video demonstration of sslnuke can be seen at [ascii.io](http://ascii.io/a/5370).
+
 ## Mitigation
 
 Now on to the important part, how do we verify SSL connections? The first step is to
