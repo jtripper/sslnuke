@@ -103,3 +103,9 @@ If it changes the next time, do not allow the connection.
 
 The source code can be downloaded on [Github](https://github.com/jtripper/sslnuke).
 
+## Credit
+
+* jtripper -- jack@jtripper.net
+* [Blackhat Library](http://blackhatlibrary.net/)
+* [Chokepoint](http://chokepoint.net)
+
