@@ -39,6 +39,7 @@ void print_hex(unsigned char *pkt, int len) {
   printf("\n\n");
 }
 
+// Thanks to errprone for letting me borrow his code for gen_cert and InitCTX
 int gen_cert(X509 **cert, EVP_PKEY **key)
 {
     RSA *rsa;
@@ -162,6 +163,7 @@ SSL_CTX* InitCTX(struct proxied_connection *conn)
     return conn->tctx;
 }
 
+// Borrowed from: http://savetheions.com/2010/01/16/quickly-using-openssl-in-c/
 int ssl_client(struct proxied_connection *conn) {
   if(!(conn->tctx = SSL_CTX_new(SSLv23_client_method())))
     return -1;
