@@ -19,6 +19,7 @@
 
 #include "../include/util.h"
 
+// print an error
 void error(int e, char *format, ...) {
   char error_buffer[1024];
   va_list args;

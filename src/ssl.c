@@ -180,6 +180,8 @@ int ssl_client(struct proxied_connection *conn) {
   return 1;
 }
 
+// Detects if a connection is using SSL, if it is it completes SSL handshake
+// and establishes an SSL connection with the server, if it's not it returns.
 int accept_ssl(struct proxied_connection *conn) {
   char buff[65536];
   struct ssl_client_hello *hello;
@@ -187,6 +189,7 @@ int accept_ssl(struct proxied_connection *conn) {
 
   conn->tssl = NULL;
 
+  // Read a packet off of the TCP stack without removing it so we can still accept the conection
   if((size = recv(conn->fsock, &buff, 65535, MSG_PEEK)) < sizeof(struct ssl_client_hello)) {
     printf("[!] Handshake too short.\n");
     conn->fssl = NULL;
@@ -227,6 +230,7 @@ int accept_ssl(struct proxied_connection *conn) {
   return ssl_client(conn);
 }
 
+// receive a packet
 int read_ssl(int sock, SSL *ssl, char *buff) {
   if(ssl) {
     return SSL_read(ssl, buff, 65535);
@@ -235,6 +239,7 @@ int read_ssl(int sock, SSL *ssl, char *buff) {
   }
 }
 
+// send a packet
 int send_ssl(int sock, SSL *ssl, char *buff, int size) {
   if(ssl) {
     return SSL_write(ssl, buff, size);

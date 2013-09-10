@@ -19,6 +19,7 @@
 
 #include "../include/conn_list.h"
 
+// Add a proxied_connection struct to the linked list
 struct proxied_connection *add_conn(struct proxied_connection *conns) {
   struct proxied_connection *new_conn, *last;
   new_conn = (struct proxied_connection*)calloc(1, sizeof(struct proxied_connection));
@@ -33,6 +34,7 @@ struct proxied_connection *add_conn(struct proxied_connection *conns) {
   return new_conn;
 }
 
+// Retreive the first element of the list
 struct proxied_connection *first_conn(struct proxied_connection *conns) {
   if(!conns) return conns;
 
@@ -40,6 +42,7 @@ struct proxied_connection *first_conn(struct proxied_connection *conns) {
   return conns;
 }
 
+// Get an element by socket
 struct proxied_connection *get_conn(int sock, struct proxied_connection *conns) {
   int index;
   conns = first_conn(conns);
@@ -52,6 +55,7 @@ struct proxied_connection *get_conn(int sock, struct proxied_connection *conns) 
   return NULL;
 }
 
+// Retreive the last element in the linked list
 struct proxied_connection *last_conn(struct proxied_connection *conns) {
   if(!conns) return conns;
 
@@ -59,10 +63,12 @@ struct proxied_connection *last_conn(struct proxied_connection *conns) {
   return conns;
 }
 
+// Remove a connection
 struct proxied_connection *rm_conn(struct proxied_connection *conn, fd_set *fds) {
   printf("[*] Connection closed.\n");
   struct proxied_connection *handle = NULL;
 
+  // If the connection is using SSL, free the structures
   if(conn->tssl) {
     SSL_free(conn->tssl);
     SSL_CTX_free(conn->tctx);
@@ -73,6 +79,7 @@ struct proxied_connection *rm_conn(struct proxied_connection *conn, fd_set *fds)
     SSL_CTX_free(conn->fctx);
   }
 
+  // shutdown and remove the sockets from the fd_set
   FD_CLR(conn->tsock, fds);
   FD_CLR(conn->fsock, fds);
   shutdown(conn->tsock, SHUT_RDWR);
@@ -94,6 +101,7 @@ struct proxied_connection *rm_conn(struct proxied_connection *conn, fd_set *fds)
   return handle;
 }
 
+// Remove a connection by socket.
 struct proxied_connection *rm_conn_sock(int sock, fd_set *fds, struct proxied_connection *conns) {
   struct proxied_connection *conn;
 

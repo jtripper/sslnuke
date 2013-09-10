@@ -19,6 +19,7 @@
 
 #include "../include/parse_incoming.h"
 
+// Parse out IRC messages from packets
 void parse_packet(int sock, struct proxied_connection *conn, char *buffer, int size) {
   char new_buff[65536];
   char *line = strtok(buffer, "\n"), *msg_index;
